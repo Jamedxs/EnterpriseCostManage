@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="user">
+	
+	<resultMap type="com.dxs.bean.User" id="userMap">  
+        <id property="userId" column="userId" />  
+        <result property="username" column="username" />  
+        <result property="password" column="password" />  
+        <result property="sex" column="sex" />  
+        <result property="age" column="age" />  
+        <result property="email" column="email" />  
+        <result property="birthDate" column="birthDate" />  
+        <result property="phoneNumber" column="phoneNumber" />  
+        <result property="zipcode" column="zipcode" />  
+        <result property="adderss" column="adderss" />  
+        <result property="IDcard" column="IDcard" />  
+        <result property="ext1" column="ext1" />  
+        <result property="ext2" column="ext2" />  
+    </resultMap>
+	
+	<resultMap type="com.dxs.bean.User" id="userDeptMap" extends="userMap">  
+        <collection property="dept" ofType="com.dxs.bean.Department">  
+            <id property="deptId" column="deptId" />  
+            <result property="deptName" column="deptName" />  
+            <result property="deptDescribe" column="deptDescribe" />  
+            <result property="loginRole" column="loginRole" />  
+            <result property="costStandard" column="costStandard" />
+            <result property="ext1" column="ext1" />
+            <result property="ext2" column="ext2" />
+        </collection>  
+    </resultMap>  
+	
+	
+	<!-- 根据user表中的username 和 password查询用户信息 -->  
+	<select id="getUserByUserNameAndPassword" parameterType="com.dxs.bean.User" resultType="com.dxs.bean.User">
+		select * from user where username=#{username} and password=#{password}
+	</select>
+	<!-- 根据user表中的username查询用户信息 -->
+	<select id="getUserByUserName" parameterType="String" resultType="com.dxs.bean.User">
+		select * from user where userName=#{username}
+	</select>
+	<!-- 根据user表中的userId查询用户信息和部门信息 -->
+	<select id="selectUserDept" parameterType="int" resultMap="userDeptMap">  
+		SELECT a.userId,a.username,a.password,a.sex,a.age,a.email,a.birthDate,a.phoneNumber,a.zipcode,a.adderss,a.IDcard,b.deptId,b.deptName,
+		b.deptDescribe,b.loginRole,b.costStandard
+		FROM USER a LEFT JOIN dept_user c ON a.userId=c.userId LEFT JOIN department b ON c.deptId = b.deptId WHERE a.userId = #{userId}
+    </select>  
+	
+	<!-- 以下无效，使用时要修改 -->
+    <select id="allUser"  resultType="com.dxs.bean.User">
+  	 	select * from person
+ 	</select>
+ <insert id="insertPerson" parameterType="com.dxs.bean.User">
+ <!-- <selectKey resultType="int" keyProperty="personId" order="BEFORE">
+      SELECT seq.NEXTVAL FROM DUAL
+      </selectKey> -->
+     insert into person (personId,name,age) values (#{personId},#{name},#{age})
+ </insert>
+ <update id="updatePerson" parameterType="com.dxs.bean.User">
+     update person set name=#{name},age=#{age} where personId=#{personId}
+ </update>
+ <delete id="deletePerson" parameterType="int">
+     delete person where personId=#{personId}
+ </delete>
+</mapper>

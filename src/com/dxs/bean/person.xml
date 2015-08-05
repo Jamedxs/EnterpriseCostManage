@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="person">
+ <select id="getPersonById" parameterType="int" resultType="com.dxs.bean.Person">
+  	 select * from person where personId=#{id}
+ </select>
+ <select id="allPerson"  resultType="com.dxs.bean.Person">
+  	 select * from person
+ </select>
+ <insert id="insertPerson" parameterType="com.dxs.bean.Person">
+ <!-- <selectKey resultType="int" keyProperty="personId" order="BEFORE">
+      SELECT seq.NEXTVAL FROM DUAL
+      </selectKey> -->
+     insert into person (personId,name,age) values (#{personId},#{name},#{age})
+ </insert>
+ <update id="updatePerson" parameterType="com.dxs.bean.Person">
+     update person set name=#{name},age=#{age} where personId=#{personId}
+ </update>
+ <delete id="deletePerson" parameterType="int">
+     delete person where personId=#{personId}
+ </delete>
+</mapper>
+

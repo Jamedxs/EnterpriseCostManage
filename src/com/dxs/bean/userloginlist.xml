@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="userloginlist">
+
+	<select id="getUserById" parameterType="int" resultType="com.dxs.bean.User">
+		select * from user where userId=#{id}
+	</select>
+    <select id="allUser"  resultType="com.dxs.bean.User">
+  	 	select * from person
+ 	</select>
+ <insert id="insertUserLoginList" parameterType="com.dxs.bean.UserLoginList">
+     insert into userloginlist (userId,loginTime,loginIP) values (#{userId},#{loginTime},#{loginIP})
+ </insert>
+ <update id="updatePerson" parameterType="com.dxs.bean.User">
+     update person set name=#{name},age=#{age} where personId=#{personId}
+ </update>
+ <delete id="deletePerson" parameterType="int">
+     delete person where personId=#{personId}
+ </delete>
+</mapper>

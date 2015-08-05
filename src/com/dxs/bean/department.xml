@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="department">
+	<!-- 以下与实体类的中字段一致 -->
+	<sql id="selectId">
+	deptId,
+	deptName,
+	deptDescribe,
+	loginRole,
+	costStandard,
+	ext1,
+	ext2
+	</sql>
+	
+	<!-- 根据user表中的userId查询部门信息 -->
+	<select id="selectDeptByUserId" parameterType="int" resultType="com.dxs.bean.Department">  
+		select
+		<include refid="selectId" />
+		<!--from department a LEFT JOIN dept_user b on a.deptId = b.deptId where b.userId = #{userId} -->
+		FROM department WHERE deptId IN (SELECT deptId FROM dept_user WHERE userId = #{userId})
+    </select>
+	
+	
+</mapper>
