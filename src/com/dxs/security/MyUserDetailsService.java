@@ -31,7 +31,7 @@ public class MyUserDetailsService implements UserDetailsService{
 		//封装成spring security的user
 		User userdetail = new User(users.getUsername(), users.getPassword(), true, true, true, true, authorities);
 		
-		return userdetail;
+		return userdetail; 
 	}
 	
 	//取得用户的权限
